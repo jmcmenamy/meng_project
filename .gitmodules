@@ -1,0 +1,6 @@
+[submodule "GoVector"]
+	path = GoVector
+	url = git@github.com:jmcmenamy/GoVector.git
+[submodule "shiviz"]
+	path = shiviz
+	url = git@github.com:jmcmenamy/shiviz.git
