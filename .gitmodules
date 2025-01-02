@@ -7,3 +7,4 @@
 [submodule "etcd"]
 	path = etcd
 	url = git@github.com:jmcmenamy/etcd.git
+	branch = fix-lease-expiration
