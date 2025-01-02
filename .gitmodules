@@ -4,3 +4,6 @@
 [submodule "shiviz"]
 	path = shiviz
 	url = git@github.com:jmcmenamy/shiviz.git
+[submodule "etcd"]
+	path = etcd
+	url = git@github.com:jmcmenamy/etcd.git
