@@ -1,0 +1,47 @@
+#!/bin/bash
+
+# Define the path to the virtual environment (hardcoded)
+SCRIPT_DIR=$(cd "$(dirname $(readlink -f "$0"))" && pwd -P)
+VENV_PATH="${SCRIPT_DIR}/venv"
+SCRIPT_PATH="${SCRIPT_DIR}/dstest.py"
+
+# Check if the virtual environment directory exists
+if [ ! -d "$VENV_PATH" ]; then
+    echo "Error: Virtual environment not found at $VENV_PATH"
+    exit 1
+fi
+
+# Activate the virtual environment
+if [ -f "$VENV_PATH/bin/activate" ]; then
+    # For Unix-like systems (Linux/macOS)
+    source "$VENV_PATH/bin/activate"
+else
+    echo "Error: Could not find activation script in $VENV_PATH"
+    exit 1
+fi
+
+# so the rich module in Python update the progress dynamically
+export TTY_COMPATIBLE=1
+
+# Run dstest with all arguments passed to this script, capture all output.
+OUTPUT=$(python3 -u $SCRIPT_PATH "$@" | tee /dev/tty)
+
+# Extract the result path from the output.
+# This assumes the Python script prints a line like:
+#   RESULT_PATH: /path/to/output
+RESULT_PATH=$(echo "$OUTPUT" | grep '^RESULT_PATH:' | awk '{print $2}')
+
+# Iterate over each subfolder in RESULT_PATH.
+if [ -d "$RESULT_PATH" ]; then
+    for subfolder in "$RESULT_PATH"/*; do
+        if [ -d "$subfolder" ]; then
+            echo "Processing subfolder: $subfolder"
+            GoVector --log_type zap --log_dir "$subfolder" --outfile "$subfolder/combined_logs.log"
+        fi
+    done
+else
+    echo "Error: RESULT_PATH is not a directory: $RESULT_PATH"
+fi
+
+# Deactivate the virtual environment after running
+deactivate
