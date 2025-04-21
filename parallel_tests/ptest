@@ -5,19 +5,15 @@ SCRIPT_DIR=$(cd "$(dirname $(readlink -f "$0"))" && pwd -P)
 VENV_PATH="${SCRIPT_DIR}/venv"
 SCRIPT_PATH="${SCRIPT_DIR}/dstest.py"
 
-# Check if the virtual environment directory exists
-if [ ! -d "$VENV_PATH" ]; then
-    echo "Error: Virtual environment not found at $VENV_PATH"
-    exit 1
-fi
+# Should we deactivate at the end?
+ACTIVATED=false
 
-# Activate the virtual environment
+# If a venv folder exists and has an activate script, source it
 if [ -f "$VENV_PATH/bin/activate" ]; then
-    # For Unix-like systems (Linux/macOS)
     source "$VENV_PATH/bin/activate"
+    ACTIVATED=true
 else
-    echo "Error: Could not find activation script in $VENV_PATH"
-    exit 1
+    echo "Notice: No virtual environment at $VENV_PATH — running system Python"
 fi
 
 # so the rich module in Python update the progress dynamically
@@ -43,5 +39,7 @@ else
     echo "Error: RESULT_PATH is not a directory: $RESULT_PATH"
 fi
 
-# Deactivate the virtual environment after running
-deactivate
+# Only deactivate if we actually activated earlier
+if [ "$ACTIVATED" = true ]; then
+    deactivate
+fi
