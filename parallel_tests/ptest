@@ -19,20 +19,24 @@ fi
 # so the rich module in Python update the progress dynamically
 export TTY_COMPATIBLE=1
 
+RESULT_PATH=$(date '+%Y%m%d_%H%M%S')
+
 # Run dstest with all arguments passed to this script, capture all output.
-OUTPUT=$(python3 -u $SCRIPT_PATH "$@" | tee /dev/tty)
+OUTPUT=$(python3 -u $SCRIPT_PATH -o "$RESULT_PATH" "$@" | tee /dev/tty)
 
 # Extract the result path from the output.
 # This assumes the Python script prints a line like:
 #   RESULT_PATH: /path/to/output
-RESULT_PATH=$(echo "$OUTPUT" | grep '^RESULT_PATH:' | awk '{print $2}')
+# RESULT_PATH=$(echo "$OUTPUT" | grep '^RESULT_PATH:' | awk '{print $2}')
 
-# Iterate over each subfolder in RESULT_PATH.
+# Iterate over each folder in RESULT_PATH.
 if [ -d "$RESULT_PATH" ]; then
-    for subfolder in "$RESULT_PATH"/*; do
-        if [ -d "$subfolder" ]; then
-            echo "Processing subfolder: $subfolder"
-            GoVector --log_type zap --log_dir "$subfolder" --outfile "$subfolder/combined_logs.log"
+    for folder in "$RESULT_PATH"/*; do
+        if [ -d "$folder" ]; then
+            # echo "Processing folder: $folder"
+            GoVector --log_type zap --log_dir "$folder" --outfile "$folder/combined_logs.log"
+            subfolder=$(basename "$folder")
+            mv "$RESULT_PATH/$subfolder.log" "$RESULT_PATH/$subfolder/$subfolder.log"
         fi
     done
 else

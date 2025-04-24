@@ -109,7 +109,7 @@ def run_test(test: str, race: bool, timing: bool, timeout: int, output_dir: Path
         test_cmd = ["time"] + cmd
     f, path = tempfile.mkstemp()
     start = time.time()
-    print(f"Test command is {test_cmd=}")
+    # print(f"Test command is {test_cmd=}")
     proc = subprocess.run(test_cmd, stdout=f, stderr=f)
     runtime = time.time() - start
     os.close(f)
@@ -131,22 +131,24 @@ def run_tests(
     sequential: bool       = typer.Option(False,  '--sequential',      '-s',    help='Run all test of each group in order'),
     workers: int           = typer.Option(1,      '--workers',         '-p',    help='Number of parallel tasks'),
     iterations: int        = typer.Option(10,     '--iter',            '-n',    help='Number of iterations to run'),
-    output: Optional[Path] = typer.Option(None,   '--output',          '-o',    help='Output path to use'),
+    output: str            = typer.Option(...,    '--output',      '-o',    help='Output path to use, required'),
     verbose: int           = typer.Option(0,      '--verbose',         '-v',    help='Verbosity level', count=True),
     archive: bool          = typer.Option(False,  '--archive',         '-a',    help='Save all logs intead of only failed ones'),
     race: bool             = typer.Option(False,  '--race/--no-race',  '-r/-R', help='Run with race checker'),
     loop: bool             = typer.Option(False,  '--loop',            '-l',    help='Run continuously'),
     growth: int            = typer.Option(10,     '--growth',          '-g',    help='Growth ratio of iterations when using --loop'),
     timing: bool           = typer.Option(False,  '--timing',          '-t',    help='Report timing, only works on macOS'),
-    timeout: int           = typer.Option(1,     '--timeout',         '-z',    help='Set timeout in seconds for each test'),
-    extra: str = typer.Option("", '--extra', '-e', help='Give extra args to each go test command')
+    timeout: int           = typer.Option(1,      '--timeout',         '-z',    help='Set timeout in seconds for each test'),
+    extra: str             = typer.Option("",     '--extra',           '-e',    help='Give extra args to each go test command')
     # fmt: on
 ):
 
-    if output is None:
-        timestamp = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
-        output = Path(timestamp)
-        print('RESULT_PATH:', output)
+    output = Path(output)
+
+    # if output is None:
+    #     timestamp = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
+    #     output = Path(timestamp)
+    #     print('RESULT_PATH:', output)
 
     if race:
         print("[yellow]Running with the race detector\n[/yellow]")
@@ -228,7 +230,7 @@ def run_tests(
                         task_progress.update(tasks[test], advance=1)
                         dest = (output / f"{test}_{i}.log").as_posix()
                         if rc != 0:
-                            print(f"Failed test {test} - {dest}")
+                            # print(f"Failed test {test} - {dest}")
                             task_progress.update(tasks[test], description=f"[red]{test}[/red]")
                             results[test]['failed'].add(1)
                         else:
@@ -237,7 +239,7 @@ def run_tests(
 
                         if rc != 0 or archive:
                             output.mkdir(exist_ok=True, parents=True)
-                            print(f"copying {path} to {dest}")
+                            # print(f"copying {path} to {dest}")
                             shutil.copy(path, dest)
                         else:
                             shutil.rmtree(f"{output / f"{test}_{i}"}")
