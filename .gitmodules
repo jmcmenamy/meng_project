@@ -11,3 +11,6 @@
 [submodule "raft"]
 	path = raft
 	url = git@github.com:jmcmenamy/raft.git
+[submodule "6.5840_raft_implementation"]
+	path = 6.5840_raft_implementation
+	url = git@github.com:jmcmenamy/6.5840_raft_implementation.git
