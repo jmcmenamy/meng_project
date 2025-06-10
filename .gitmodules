@@ -1,9 +1,9 @@
 [submodule "GoVector"]
 	path = GoVector
 	url = git@github.com:jmcmenamy/GoVector.git
-[submodule "shiviz"]
-	path = shiviz
-	url = git@github.com:jmcmenamy/shiviz.git
+[submodule "disviz"]
+	path = disviz
+	url = git@github.com:jmcmenamy/disviz.git
 [submodule "etcd"]
 	path = etcd
 	url = git@github.com:jmcmenamy/etcd.git
