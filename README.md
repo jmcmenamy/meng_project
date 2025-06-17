@@ -20,7 +20,11 @@ ptest looks for (or creates) a Python virtual environment (venv) and activates i
 
 Below is a diagram showing how all three of these tools are used together. It contains more detail than is needed to use the tools.
 
-![System diagram](thesis/diagram.drawio.svg)
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="thesis/diagram.drawioDark.svg">
+  <source media="(prefers-color-scheme: light)" srcset="thesis/diagram.drawioLight.svg">
+  <img alt="System diagram" src="thesis/diagram.drawioLight.svg">
+</picture>
 
 ### Installation and Usage
 
