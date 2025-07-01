@@ -37,7 +37,7 @@
     fetch(markdownUrl)
       .then(res => res.text())
       .then(markdown => {
-        const rewrittenMarkdown = rewriteRelativeLinksAndAttrs(markdown, base);
+        const rewrittenMarkdown = rewriteRelativeLinksAndAttrs(markdown, '../');
         const textarea = document.createElement('textarea');
         textarea.setAttribute('toc', '');
         textarea.style.display = 'none';
