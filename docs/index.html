@@ -17,7 +17,7 @@
 
 <body>
   <script>
-    const base = 'https://raw.githubusercontent.com/jmcmenamy/meng_project/refs/heads/main/';
+    const base = 'https://raw.githubusercontent.com/jmcmenamy/meng_project/main/';
     const markdownUrl = base + 'README.md';
 
     const rewriteRelativeLinksAndAttrs = (markdown, baseUrl) => {
@@ -37,7 +37,7 @@
     fetch(markdownUrl)
       .then(res => res.text())
       .then(markdown => {
-        const rewrittenMarkdown = rewriteRelativeLinksAndAttrs(markdown, '../');
+        const rewrittenMarkdown = rewriteRelativeLinksAndAttrs(markdown, base);
         const textarea = document.createElement('textarea');
         textarea.setAttribute('toc', '');
         textarea.style.display = 'none';
