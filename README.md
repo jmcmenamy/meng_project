@@ -4,11 +4,11 @@ For my MEng, I made tools for debugging distributed system executions.
 
 ### DisViz
 
-[DisViz](https://github.com/jmcmenamy/disviz) is a browser-based tool to visualize distributed system logs. See the repo's README for more information on how to use it.
+[DisViz](https://jmcmenamy.github.io/disviz/) is a browser-based tool to visualize distributed system logs. See the repo's README for more information on how to use it.
 
 ### GoVector
 
-[GoVector](https://github.com/jmcmenamy/GoVector) is a Go package for producing logs with vector clocks, which allows DisViz to parse them and create a visualization of the execution. See the repo's README for more information on how to use it.
+[GoVector](https://jmcmenamy.github.io/GoVector/) is a Go package for producing logs with vector clocks, which allows DisViz to parse them and create a visualization of the execution. See the repo's README for more information on how to use it.
 
 ### ptest
 
@@ -34,7 +34,7 @@ This repo contains 3 submodules that don't need to be cloned to use this tool. T
 git clone git@github.com:jmcmenamy/meng_project.git && cd meng_project && git submodule update --init --recursive disviz GoVector
 ```
 
-You only need to clone GoVector if you want to make local changes to that package (remember to use the replace directive in go.mod). Otherwise, letting Go install it from the [remote source](https://pkg.go.dev/github.com/jmcmenamy/GoVector) will work. See the [GoVector README](https://github.com/jmcmenamy/GoVector) for more details.
+You only need to clone GoVector if you want to make local changes to that package (remember to use the replace directive in go.mod). Otherwise, letting Go install it from the [remote source](https://pkg.go.dev/github.com/jmcmenamy/GoVector) will work. See [GoVector](https://jmcmenamy.github.io/GoVector/) for more details.
 
 Once the repo is cloned, you can run ptest with `bash path/to/ptest`, but for convenience you can also make it executable with `chmod +x path/to/ptest` and add it to your `PATH` so it can be called from anywhere. You can symlink the ptest script to a directory that's already in your `PATH`, or add the parallel_tests directory to your `PATH` in a config file like `~/.bashrc`. [Here's](https://jvns.ca/blog/2025/02/13/how-to-add-a-directory-to-your-path/) [some](https://medium.com/%40B-Treftz/macos-adding-a-directory-to-your-path-fe7f19edd2f7) [various](https://www.linode.com/docs/guides/how-to-add-directory-to-path/) resources describing how to modify your `PATH`.
 
